@@ -1,0 +1,48 @@
+org: challengecloud
+app: cc-sf-users-mngr
+service: cc-sf-users-mngr
+
+provider:
+  name: aws
+  stage: dev
+  region: us-east-1
+  iamRoleStatements:
+    - Effect: Allow
+      Action:
+        - dynamodb:*
+      Resource: 
+        - arn:aws:dynamodb:${self:provider.region}:${aws:accountId}:table/cc-sf-users
+
+plugins:
+  - serverless-offline
+  - serverless-iam-roles-per-function
+
+package:
+  individually: true
+  patterns:
+    - '!**/*'
+
+functions:
+  - ${file(./cc-users-post-service/user_post_iac.yml)}
+  - ${file(./cc-users-get-service/user_get_iac.yml)}
+  - ${file(./cc-users-delete-service/user_delete_iac.yml)}
+  - ${file(./cc-users-put-service/user_put_iac.yml)}
+
+resources:
+  Resources:
+    UsersTable:
+      Type: AWS::DynamoDB::Table
+      Properties:
+        TableName: cc-sf-users
+        BillingMode: PAY_PER_REQUEST
+        AttributeDefinitions:
+          - AttributeName: id
+            AttributeType: S
+        KeySchema:
+          - AttributeName: id
+            KeyType: HASH
+        Tags:
+          - Key: cc
+            Value: challenge-cloud
+          - Key: app
+            Value: cc-sf-users-mngr

@@ -1,0 +1,15 @@
+deleteUser:
+  handler: com.serverless.Handler
+  runtime: java21
+  package:
+      artifact: cc-users-delete-service/build/distributions/cc-users-delete-service.zip
+  environment:
+    USERS_TABLE_NAME: cc-sf-users
+  events:
+    - http:
+        method: delete
+        path: /v1/users/{id}
+        request:
+            parameters:
+              paths:
+                id: true

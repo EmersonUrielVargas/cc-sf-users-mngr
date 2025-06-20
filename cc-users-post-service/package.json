@@ -1,0 +1,20 @@
+{
+  "name": "cc-sf-users-mngr",
+  "version": "1.0.0",
+  "description": "",
+  "scripts": {
+    "invoke-local": "sls invoke local -f api",
+    "deploy-function": "sls deploy function -f api",
+    "deploy": "sls deploy",
+    "run-local": "sls offline"
+  },
+  "dependencies": {
+    "@aws-sdk/client-dynamodb": "^3.830.0",
+    "@aws-sdk/client-sqs": "^3.831.0",
+    "@aws-sdk/lib-dynamodb": "^3.830.0",
+    "dotenv": "^16.5.0",
+    "express": "^4.19.2",
+    "serverless-http": "^3.2.0",
+    "uuid": "^11.1.0"
+  }
+}

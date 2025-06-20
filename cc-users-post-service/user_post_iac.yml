@@ -1,0 +1,33 @@
+
+usersCreate:
+  handler: cc-users-post-service/handler.handler
+  runtime: nodejs20.x
+  package:
+    patterns:
+    - 'cc-users-post-service/**'
+    - 'cc-users-post-service/node_modules/**'
+    - '!cc-users-post-service/resources/*'
+    - '!cc-users-post-service/.gitignore'
+    - '!cc-users-post-service/user_post_iac.yml'
+    - '!cc-users-post-service/README.md'
+  environment:
+    USERS_TABLE_NAME: cc-sf-users
+    SQS_QUEUE_URL: https://sqs.us-east-1.amazonaws.com/348800178380/cc-sf-users-create
+  iamRoleStatementsInherit: true
+  iamRoleStatements:
+    - Effect: Allow
+      Action:
+        - sqs:SendMessage
+      Resource: 
+        - arn:aws:sqs:${self:provider.region}:${aws:accountId}:cc-sf-users-create
+
+  events:
+    - http: 
+        method: post
+        path: /v1/users
+        request:
+          schemas:
+            application/json:
+              schema: ${file(./cc-users-post-service/resources/iac/create_user_model.json)}
+              name: PostCreateModel
+              description: 'Validation model for Creating Posts'
