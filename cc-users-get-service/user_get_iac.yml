@@ -1,0 +1,21 @@
+getUsers:
+  handler: cc-users-get-service/handler.handler
+  runtime: nodejs20.x
+  package:
+    patterns:
+    - 'cc-users-get-service/**'
+    - 'cc-users-get-service/node_modules/**'
+    - '!cc-users-get-service/resources/*'
+    - '!cc-users-get-service/.gitignore'
+    - '!cc-users-get-service/user_get_iac.yml'
+    - '!cc-users-get-service/README.md'
+  environment:
+    USERS_TABLE_NAME: cc-sf-users
+  events:
+    - http:
+        method: get
+        path: /v1/users/{id}
+        request:
+            parameters:
+              paths:
+                id: true

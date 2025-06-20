@@ -1,0 +1,31 @@
+{
+  "definitions": {},
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "type": "object",
+  "title": "The Schema to create a user in the system",
+  "required": [
+    "name",
+    "email",
+    "lastname"
+  ],
+  "properties": {
+    "name": {
+      "type": "string",
+      "title": "The name of user",
+      "default": "",
+      "pattern": "^[a-zA-Z0-9]+$"
+    },
+    "email": {
+      "type": "string",
+      "title": "The Email Schema",
+      "default": "",
+      "format": "email"
+    },
+    "lastname": {
+      "type": "string",
+      "title": "The last name of user",
+      "default": "",
+      "pattern": "^[a-zA-Z0-9]+$"
+    }
+  }
+}
